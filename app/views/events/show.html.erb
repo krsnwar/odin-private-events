@@ -1,0 +1,12 @@
+<%= render "navbar" %>
+
+<div class="container mt-3 p-3">
+  <h1><%= @event.name %></h1>
+  <br>
+  <h4>Description of the event:</h4>
+  <p><%= @event.description %></p>
+  <h4>When?</h4>
+  <p><%= @event.date.strftime("%e %B %Y at %H:%M") %></p>
+  <br>
+  <%= link_to "Attend this event", "#", class: "btn btn-primary" %>
+</div>
