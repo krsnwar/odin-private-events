@@ -17,7 +17,9 @@
   <% if attend_flag %>
     <%= link_to "Attend this event", attend_path(event_id: @event.id), class: "btn btn-primary" %>
   <% else %>
-    <%= link_to "Attend this event", attend_path(event_id: @event.id), class: "btn btn-primary disabled" %>
+    <%= link_to "You attend this event", attend_path(event_id: @event.id), class: "btn btn-success disabled" %>
+    &nbsp
+    <%= link_to "Cancel Booking", "#", class: "btn btn-primary" %>
   <% end %>
   <br>
   <table class="table table-striped mt-5">

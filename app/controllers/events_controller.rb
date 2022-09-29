@@ -34,11 +34,17 @@ class EventsController < ApplicationController
     end
   end
 
-  private
-    # def attend_params
-    #   params.require(:attend).permit(:event_id)
-    # end
+  def search
+    @events = Event.where("events.name LIKE ?", params[:name])
+    @users = User.all
+    render :index
+  end
 
+  def display_search
+
+  end
+
+  private
     def event_params
       params.require(:event).permit(:name, :description, :date)
     end
