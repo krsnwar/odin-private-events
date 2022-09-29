@@ -9,4 +9,29 @@
   <p><%= @event.date.strftime("%e %B %Y at %H:%M") %></p>
   <br>
   <%= link_to "Attend this event", "#", class: "btn btn-primary" %>
+  <br>
+  <table class="table table-striped mt-5">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Atendee</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @event.atendees.present? %>
+        <% counter = 1 %>
+        <% @event.atendees.each do |atendee| %>
+          <tr>
+            <td><%= counter %></td>
+            <td><%= atendee.email %></td>
+          </tr>
+          <% counter += 1 %>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="2" class="text-center">There's no atendee</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
