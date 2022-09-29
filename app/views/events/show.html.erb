@@ -8,7 +8,17 @@
   <h4>When?</h4>
   <p><%= @event.date.strftime("%e %B %Y at %H:%M") %></p>
   <br>
-  <%= link_to "Attend this event", "#", class: "btn btn-primary" %>
+  <% attend_flag = true %>
+  <% current_user.booked_event.each do |booked| %>
+    <% if booked.name == @event.name %>
+      <% attend_flag = false %>
+    <% end %>
+  <% end %>
+  <% if attend_flag %>
+    <%= link_to "Attend this event", attend_path(event_id: @event.id), class: "btn btn-primary" %>
+  <% else %>
+    <%= link_to "Attend this event", attend_path(event_id: @event.id), class: "btn btn-primary disabled" %>
+  <% end %>
   <br>
   <table class="table table-striped mt-5">
     <thead>
@@ -18,9 +28,9 @@
       </tr>
     </thead>
     <tbody>
-      <% if @event.atendees.present? %>
+      <% if @event.user_booking.present? %>
         <% counter = 1 %>
-        <% @event.atendees.each do |atendee| %>
+        <% @event.user_booking.each do |atendee| %>
           <tr>
             <td><%= counter %></td>
             <td><%= atendee.email %></td>

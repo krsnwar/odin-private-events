@@ -6,12 +6,12 @@ class EventsController < ApplicationController
     @users = User.all
   end
 
-  def new
-    @event = Event.new
-  end
-
   def show
     @event = Event.find(params[:id])
+  end
+
+  def new
+    @event = Event.new
   end
 
   def create
@@ -24,7 +24,21 @@ class EventsController < ApplicationController
     end
   end
 
+  def attend
+    attend = current_user.event_atendees.build(event_id: params[:event_id])
+
+    if attend.save
+      redirect_to event_path(id: params[:event_id])
+    else
+      render :event, status: :unprocessable_entity
+    end
+  end
+
   private
+    # def attend_params
+    #   params.require(:attend).permit(:event_id)
+    # end
+
     def event_params
       params.require(:event).permit(:name, :description, :date)
     end
