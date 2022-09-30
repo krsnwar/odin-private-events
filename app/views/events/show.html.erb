@@ -1,25 +1,57 @@
 <%= render "navbar" %>
 
+<% user_event_info = current_user.booked_event.find(@event.id) rescue nil %>
+
 <div class="container mt-3 p-3">
-  <h1><%= @event.name %></h1>
+  <div class="d-flex justify-content-between">
+    <div>
+      <h1><%= @event.name %></h1>
+    </div>
+    <div>
+      <% if user_event_info.present? %>
+        <%= link_to "Show Ticket", show_ticket_path(@event), class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
   <br>
-  <h4>Description of the event:</h4>
-  <p><%= @event.description %></p>
-  <h4>When?</h4>
-  <p><%= @event.date.strftime("%e %B %Y at %H:%M") %></p>
-  <br>
-  <% attend_flag = true %>
-  <% current_user.booked_event.each do |booked| %>
-    <% if booked.name == @event.name %>
-      <% attend_flag = false %>
-    <% end %>
-  <% end %>
-  <% if attend_flag %>
-    <%= link_to "Attend this event", attend_path(event_id: @event.id), class: "btn btn-primary" %>
-  <% else %>
-    <%= link_to "You attend this event", attend_path(event_id: @event.id), class: "btn btn-success disabled" %>
-    &nbsp
-    <%= link_to "Cancel Booking", "#", class: "btn btn-primary" %>
+  <table class="table align-middle">
+    <tbody>
+      <tr>
+        <td>
+          <h4>Description:</h4>
+        </td>
+        <td>
+          <%= @event.description %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>When?</h4>
+        </td>
+        <td>
+          <%= @event.date.strftime("%e %B %Y at %H:%M") %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h4>Status:</h4>
+        </td>
+        <td>
+          <% if !@event.date.past? %>
+            <% if user_event_info.present? %>
+              <span class="badge text-bg-success">Booked</span>
+            <% else %>
+              <span class="badge text-bg-primary">Available</span>
+            <% end %>
+          <% else %>
+            <span class="badge text-bg-danger">Event expired!</span>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <% if !user_event_info.present? && !@event.date.past? %>
+    <%= link_to "Book!", attend_path(event_id: @event.id), class: "btn btn-primary" %>
   <% end %>
   <br>
   <table class="table table-striped mt-5">
@@ -35,7 +67,7 @@
         <% @event.user_booking.each do |atendee| %>
           <tr>
             <td><%= counter %></td>
-            <td><%= atendee.email %></td>
+            <td><%= atendee.username %></td>
           </tr>
           <% counter += 1 %>
         <% end %>

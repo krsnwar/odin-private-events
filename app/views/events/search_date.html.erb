@@ -1,0 +1,35 @@
+<%= render "navbar" %>
+
+<div class="container d-flex justify-content-center mt-5">
+  <div class="my-auto">
+    <form class="d-flex" role="search" action="<%= show_by_date_path %>" method="POST">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input class="form-control me-2" type="date" placeholder="Search" aria-label="Search" name="date" id="date">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <% if @events.present? %>
+    <div class="row justify-content-center">
+      <% @events.each do |event| %>
+        <div class="col-lg-4 my-2 d-flex align-items-stretch">
+          <div class="card p-2 w-100">
+            <h4 class="card-title text-center"><%= event.name %></h4>
+            <p class="card-text"><%= event.description %></p>
+            <p class="card-text"><%= event.date.strftime("%e %B %Y at %H:%M") %></p>
+            <p><%= "Creator: #{event.user.email}" %></p>
+            <% if user_signed_in? %>
+              <%= link_to "Details...", event, class: "btn btn-primary" %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="d-flex justify-content-center mt-5">
+      <h4>No Event</h4>
+    </div>
+  <% end %>
+</div>

@@ -6,15 +6,22 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="<%= events_path %>">All Events</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Show Events
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="<%= events_path %>">All Events</a></li>
+            <li><a class="dropdown-item" href="<%= event_chosen_path %>">My Event</a></li>
+            <li><a class="dropdown-item" href="<%= event_chosen_path %>">Event Chosen</a></li>
+          </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Event Chosen</a>
+          <a href="<%= search_date_path %>" class="nav-link">Search by date</a>
         </li>
         <% if user_signed_in? %>
           <li class="nav-item">
-            <a class="nav-link disabled"><%= current_user.email %></a>
+            <a class="nav-link disabled"><%= current_user.username %></a>
           </li>
         <% end %>
       </ul>

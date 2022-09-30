@@ -16,6 +16,14 @@
   </div>
 
   <div class="mb-3">
+    <%= form.label :category, class: "form-label" %>
+    <%= select_tag(:category, options_for_select(@categories), class: "form-select") %>
+    <% event.errors.full_messages_for(:category).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
     <%= form.label :date, class: "form-label" %>
     <%= form.datetime_field :date, class: "form-control" %>
     <% event.errors.full_messages_for(:date).each do |message| %>
